@@ -11,19 +11,21 @@ use function gmdate;
 /**
  * Class Response
  *
+ * Represents an HTTP response object with additional functionality for file handling and exceptions.
+ *
  * @package Core\Http
  */
 class Response extends \Workerman\Protocols\Http\Response
 {
     /**
-     * @var Throwable
+     * @var Throwable|null The exception associated with the response, if any.
      */
-    protected $exception = null;
+    protected ?Throwable $exception = null;
 
     /**
-     * File
+     * Sets the response to serve the specified file.
      *
-     * @param string $file
+     * @param string $file The path to the file to serve.
      * @return $this
      */
     public function file(string $file): Response
@@ -35,10 +37,10 @@ class Response extends \Workerman\Protocols\Http\Response
     }
 
     /**
-     * Download
+     * Sets the response for downloading the specified file.
      *
-     * @param string $file
-     * @param string $downloadName
+     * @param string $file The path to the file to download.
+     * @param string $downloadName The optional name for the downloaded file.
      * @return $this
      */
     public function download(string $file, string $downloadName = ''): Response
@@ -51,10 +53,10 @@ class Response extends \Workerman\Protocols\Http\Response
     }
 
     /**
-     * NotModifiedSince
+     * Checks if the file has been modified since the If-Modified-Since header.
      *
-     * @param string $file
-     * @return bool
+     * @param string $file The path to the file to check.
+     * @return bool Whether the file has not been modified since the If-Modified-Since header.
      */
     protected function notModifiedSince(string $file): bool
     {
@@ -66,10 +68,10 @@ class Response extends \Workerman\Protocols\Http\Response
     }
 
     /**
-     * Exception
+     * Gets or sets the exception associated with the response.
      *
-     * @param Throwable|null $exception
-     * @return Throwable|null
+     * @param Throwable|null $exception The exception to set, or null to get the current exception.
+     * @return Throwable|null The current exception associated with the response, or null if none set.
      */
     public function exception(Throwable $exception = null): ?Throwable
     {

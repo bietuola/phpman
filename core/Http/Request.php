@@ -14,37 +14,44 @@ use const FILTER_FLAG_NO_RES_RANGE;
 use const FILTER_VALIDATE_IP;
 
 /**
+ * Class Request
+ *
+ * Represents an HTTP request with additional functionality for handling input, headers, and IP addresses.
+ *
  * @property array $_view_vars
+ * @package Core\Http
  */
 class Request extends \Workerman\Protocols\Http\Request
 {
     /**
-     * @var string
+     * @var string|null The name of the plugin.
      */
-    public $plugin = null;
+    public ?string $plugin = null;
 
     /**
-     * @var string
+     * @var string|null The name of the application.
      */
-    public $app = null;
+    public ?string $app = null;
 
     /**
-     * @var string
+     * @var string|null The name of the controller.
      */
-    public $controller = null;
+    public ?string $controller = null;
 
     /**
-     * @var string
+     * @var string|null The name of the action.
      */
-    public $action = null;
+    public ?string $action = null;
 
     /**
-     * @var RouteObject
+     * @var RouteObject|null The matched route object.
      */
-    public $route = null;
+    public ?RouteObject $route = null;
 
     /**
-     * @return mixed|null
+     * Retrieves all input data (both POST and GET).
+     *
+     * @return mixed|null All input data.
      */
     public function all()
     {
@@ -52,11 +59,11 @@ class Request extends \Workerman\Protocols\Http\Request
     }
 
     /**
-     * Input
+     * Retrieves input data by name, with a default value if not present.
      *
-     * @param string $name
-     * @param mixed $default
-     * @return mixed|null
+     * @param string $name The input parameter name.
+     * @param mixed $default The default value if the parameter is not found.
+     * @return mixed|null The value of the input parameter, or the default value if not found.
      */
     public function input(string $name, $default = null)
     {
@@ -69,10 +76,10 @@ class Request extends \Workerman\Protocols\Http\Request
     }
 
     /**
-     * Only
+     * Retrieves only specified keys from the input data.
      *
-     * @param array $keys
-     * @return array
+     * @param array $keys The keys to retrieve.
+     * @return array The subset of input data containing only the specified keys.
      */
     public function only(array $keys): array
     {
@@ -87,10 +94,10 @@ class Request extends \Workerman\Protocols\Http\Request
     }
 
     /**
-     * Except
+     * Retrieves input data excluding specified keys.
      *
-     * @param array $keys
-     * @return mixed|null
+     * @param array $keys The keys to exclude.
+     * @return mixed|null The input data excluding the specified keys.
      */
     public function except(array $keys)
     {
@@ -102,10 +109,10 @@ class Request extends \Workerman\Protocols\Http\Request
     }
 
     /**
-     * File
+     * Retrieves uploaded file(s) by name or all uploaded files.
      *
-     * @param string|null $name
-     * @return null|UploadFile[]|UploadFile
+     * @param string|null $name The name of the uploaded file(s).
+     * @return null|UploadFile[]|UploadFile The parsed UploadFile object(s) or null if not found.
      */
     public function file($name = null)
     {
@@ -114,7 +121,7 @@ class Request extends \Workerman\Protocols\Http\Request
             return $name === null ? [] : null;
         }
         if ($name !== null) {
-            // Multi files
+            // Single file or multiple files with the same name
             if (is_array(current($files))) {
                 return $this->parseFiles($files);
             }
@@ -122,7 +129,7 @@ class Request extends \Workerman\Protocols\Http\Request
         }
         $uploadFiles = [];
         foreach ($files as $name => $file) {
-            // Multi files
+            // Multiple files with different names
             if (is_array(current($file))) {
                 $uploadFiles[$name] = $this->parseFiles($file);
             } else {
@@ -133,10 +140,10 @@ class Request extends \Workerman\Protocols\Http\Request
     }
 
     /**
-     * ParseFile
+     * Parses a single uploaded file array into an UploadFile object.
      *
-     * @param array $file
-     * @return UploadFile
+     * @param array $file The array representing an uploaded file.
+     * @return UploadFile The parsed UploadFile object.
      */
     protected function parseFile(array $file): UploadFile
     {
@@ -144,10 +151,10 @@ class Request extends \Workerman\Protocols\Http\Request
     }
 
     /**
-     * ParseFiles
+     * Parses multiple uploaded files arrays into UploadFile objects.
      *
-     * @param array $files
-     * @return array
+     * @param array $files The arrays representing multiple uploaded files.
+     * @return array An array of parsed UploadFile objects.
      */
     protected function parseFiles(array $files): array
     {
@@ -163,9 +170,9 @@ class Request extends \Workerman\Protocols\Http\Request
     }
 
     /**
-     * GetRemoteIp
+     * Retrieves the remote IP address of the client.
      *
-     * @return string
+     * @return string The remote IP address.
      */
     public function getRemoteIp(): string
     {
@@ -173,9 +180,9 @@ class Request extends \Workerman\Protocols\Http\Request
     }
 
     /**
-     * GetRemotePort
+     * Retrieves the remote port number of the client.
      *
-     * @return int
+     * @return int The remote port number.
      */
     public function getRemotePort(): int
     {
@@ -183,9 +190,9 @@ class Request extends \Workerman\Protocols\Http\Request
     }
 
     /**
-     * GetLocalIp
+     * Retrieves the local IP address the server is bound to.
      *
-     * @return string
+     * @return string The local IP address.
      */
     public function getLocalIp(): string
     {
@@ -193,9 +200,9 @@ class Request extends \Workerman\Protocols\Http\Request
     }
 
     /**
-     * GetLocalPort
+     * Retrieves the local port number the server is bound to.
      *
-     * @return int
+     * @return int The local port number.
      */
     public function getLocalPort(): int
     {
@@ -203,10 +210,10 @@ class Request extends \Workerman\Protocols\Http\Request
     }
 
     /**
-     * GetRealIp
+     * Retrieves the real IP address of the client, considering proxies and safe mode.
      *
-     * @param bool $safeMode
-     * @return string
+     * @param bool $safeMode Whether to use safe mode to prevent spoofing.
+     * @return string The real IP address of the client.
      */
     public function getRealIp(bool $safeMode = true): string
     {
@@ -219,19 +226,9 @@ class Request extends \Workerman\Protocols\Http\Request
     }
 
     /**
-     * Url
+     * Retrieves the full URL of the request, including scheme, host, and path.
      *
-     * @return string
-     */
-    public function url(): string
-    {
-        return '//' . $this->host() . $this->path();
-    }
-
-    /**
-     * FullUrl
-     *
-     * @return string
+     * @return string The full URL of the request.
      */
     public function fullUrl(): string
     {
@@ -239,9 +236,9 @@ class Request extends \Workerman\Protocols\Http\Request
     }
 
     /**
-     * IsAjax
+     * Checks if the request is an AJAX request.
      *
-     * @return bool
+     * @return bool True if the request is AJAX, false otherwise.
      */
     public function isAjax(): bool
     {
@@ -249,9 +246,9 @@ class Request extends \Workerman\Protocols\Http\Request
     }
 
     /**
-     * IsPjax
+     * Checks if the request is a PJAX request.
      *
-     * @return bool
+     * @return bool True if the request is PJAX, false otherwise.
      */
     public function isPjax(): bool
     {
@@ -259,9 +256,9 @@ class Request extends \Workerman\Protocols\Http\Request
     }
 
     /**
-     * ExpectsJson
+     * Checks if the client expects a JSON response.
      *
-     * @return bool
+     * @return bool True if the client expects JSON, false otherwise.
      */
     public function expectsJson(): bool
     {
@@ -269,9 +266,9 @@ class Request extends \Workerman\Protocols\Http\Request
     }
 
     /**
-     * AcceptJson
+     * Checks if the client accepts JSON responses.
      *
-     * @return bool
+     * @return bool True if the client accepts JSON, false otherwise.
      */
     public function acceptJson(): bool
     {
@@ -279,26 +276,22 @@ class Request extends \Workerman\Protocols\Http\Request
     }
 
     /**
-     * IsIntranetIp
+     * Checks if an IP address is within an intranet range.
      *
-     * @param string $ip
-     * @return bool
+     * @param string $ip The IP address to check.
+     * @return bool True if the IP is within an intranet range, false otherwise.
      */
     public static function isIntranetIp(string $ip): bool
     {
-        // Not validate ip .
         if (!filter_var($ip, FILTER_VALIDATE_IP)) {
             return false;
         }
-        // Is intranet ip ? For IPv4, the result of false may not be accurate, so we need to check it manually later .
         if (!filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
             return true;
         }
-        // Manual check only for IPv4 .
         if (!filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
             return false;
         }
-        // Manual check .
         $reservedIps = [
             1681915904 => 1686110207, // 100.64.0.0 -  100.127.255.255
             3221225472 => 3221225727, // 192.0.0.0 - 192.0.0.255

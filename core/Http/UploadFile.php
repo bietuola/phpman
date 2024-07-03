@@ -6,30 +6,39 @@ namespace Core\Http;
 use Core\File;
 use function pathinfo;
 
+/**
+ * Class UploadFile
+ *
+ * Represents an uploaded file with additional metadata and methods for handling file uploads.
+ *
+ * @package Core\Http
+ */
 class UploadFile extends File
 {
     /**
-     * @var string
+     * @var string|null The original name of the uploaded file.
      */
-    protected $uploadName = null;
+    protected ?string $uploadName = null;
 
     /**
-     * @var string
+     * @var string|null The MIME type of the uploaded file.
      */
-    protected $uploadMimeType = null;
+    protected ?string $uploadMimeType = null;
 
     /**
-     * @var int
+     * @var int|null The error code associated with the uploaded file, if any.
      */
-    protected $uploadErrorCode = null;
+    protected ?int $uploadErrorCode = null;
 
     /**
      * UploadFile constructor.
      *
-     * @param string $fileName
-     * @param string $uploadName
-     * @param string $uploadMimeType
-     * @param int $uploadErrorCode
+     * Initializes an UploadFile instance with file metadata and calls the parent constructor.
+     *
+     * @param string $fileName The path to the uploaded file.
+     * @param string $uploadName The original name of the uploaded file.
+     * @param string $uploadMimeType The MIME type of the uploaded file.
+     * @param int $uploadErrorCode The error code associated with the uploaded file, if any.
      */
     public function __construct(string $fileName, string $uploadName, string $uploadMimeType, int $uploadErrorCode)
     {
@@ -40,9 +49,9 @@ class UploadFile extends File
     }
 
     /**
-     * GetUploadName
+     * Retrieves the original name of the uploaded file.
      *
-     * @return string
+     * @return string|null The original name of the uploaded file.
      */
     public function getUploadName(): ?string
     {
@@ -50,9 +59,9 @@ class UploadFile extends File
     }
 
     /**
-     * GetUploadMimeType
+     * Retrieves the MIME type of the uploaded file.
      *
-     * @return string
+     * @return string|null The MIME type of the uploaded file.
      */
     public function getUploadMimeType(): ?string
     {
@@ -60,9 +69,9 @@ class UploadFile extends File
     }
 
     /**
-     * GetUploadExtension
+     * Retrieves the file extension of the uploaded file.
      *
-     * @return string
+     * @return string The file extension.
      */
     public function getUploadExtension(): string
     {
@@ -70,9 +79,9 @@ class UploadFile extends File
     }
 
     /**
-     * GetUploadErrorCode
+     * Retrieves the error code associated with the uploaded file.
      *
-     * @return int
+     * @return int|null The error code, or null if no error occurred.
      */
     public function getUploadErrorCode(): ?int
     {
@@ -80,9 +89,9 @@ class UploadFile extends File
     }
 
     /**
-     * IsValid
+     * Checks if the uploaded file is valid (no error occurred during upload).
      *
-     * @return bool
+     * @return bool True if the file is valid, false otherwise.
      */
     public function isValid(): bool
     {
@@ -90,10 +99,10 @@ class UploadFile extends File
     }
 
     /**
-     * GetUploadMineType
+     * Retrieves the MIME type of the uploaded file (deprecated).
      *
-     * @return string
-     * @deprecated
+     * @return string|null The MIME type of the uploaded file.
+     * @deprecated Use getUploadMimeType() instead.
      */
     public function getUploadMineType(): ?string
     {

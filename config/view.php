@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-use support\Blade;
+use Support\Blade;
 
 return [
     'handler' => Blade::class

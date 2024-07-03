@@ -3,6 +3,16 @@ declare(strict_types=1);
 
 namespace Core\Utils;
 
+/**
+ * Class Env
+ *
+ * A utility class for managing environment variables.
+ *
+ * This class provides methods to load, retrieve, and set environment variables
+ * from various sources, such as configuration files.
+ *
+ * @package Core\Utils
+ */
 class Env
 {
     /**

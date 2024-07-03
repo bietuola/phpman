@@ -40,7 +40,9 @@
     "psr-4": {
       "": "./",
       "Admin\\": "./admin",
-      "App\\": "./app"
+      "Core\\": "./core",
+      "Process\\": "./process",
+      "Support\\": "./support"
     },
     "files": [
       "support/helpers.php"

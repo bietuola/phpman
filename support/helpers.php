@@ -4,12 +4,12 @@ declare(strict_types=1);
 use Core\App;
 use Core\Config;
 use Core\Route;
-use support\Blade;
-use support\Container;
-use support\Raw;
-use support\Request;
-use support\Response;
-use support\Translation;
+use Support\Blade;
+use Support\Container;
+use Support\Raw;
+use Support\Request;
+use Support\Response;
+use Support\Translation;
 use Workerman\Protocols\Http\Session;
 use Workerman\Worker;
 

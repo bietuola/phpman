@@ -7,7 +7,7 @@ use Core\Middleware\Middleware;
 use Core\Route;
 use Core\Utils\Env;
 use Core\Utils\Util;
-use support\Log;
+use Support\Log;
 
 $worker = $worker ?? null;
 

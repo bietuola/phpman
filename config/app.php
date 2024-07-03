@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 use Core\Utils\Env;
-use support\Request;
+use Support\Request;
 
 return [
     'debug'             => Env::get('APP.DEBUG', false),
