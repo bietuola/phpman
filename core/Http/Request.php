@@ -53,7 +53,7 @@ class Request extends \Workerman\Protocols\Http\Request
      *
      * @return mixed|null All input data.
      */
-    public function all()
+    public function all(): mixed
     {
         return $this->post() + $this->get();
     }
@@ -62,10 +62,10 @@ class Request extends \Workerman\Protocols\Http\Request
      * Retrieves input data by name, with a default value if not present.
      *
      * @param string $name The input parameter name.
-     * @param mixed $default The default value if the parameter is not found.
+     * @param mixed|null $default The default value if the parameter is not found.
      * @return mixed|null The value of the input parameter, or the default value if not found.
      */
-    public function input(string $name, $default = null)
+    public function input(string $name, mixed $default = null): mixed
     {
         $post = $this->post();
         if (isset($post[$name])) {
@@ -99,7 +99,7 @@ class Request extends \Workerman\Protocols\Http\Request
      * @param array $keys The keys to exclude.
      * @return mixed|null The input data excluding the specified keys.
      */
-    public function except(array $keys)
+    public function except(array $keys): mixed
     {
         $all = $this->all();
         foreach ($keys as $key) {
@@ -114,7 +114,7 @@ class Request extends \Workerman\Protocols\Http\Request
      * @param string|null $name The name of the uploaded file(s).
      * @return null|UploadFile[]|UploadFile The parsed UploadFile object(s) or null if not found.
      */
-    public function file($name = null)
+    public function file($name = null): UploadFile|array|null
     {
         $files = parent::file($name);
         if (null === $files) {
